@@ -1,0 +1,332 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Contacts API
+  description: This is an API for Contacts
+x-amazon-apigateway-request-validators:
+  all:
+    validateRequestBody: true
+    validateRequestParameters: true
+
+paths:
+  /contacts:
+    get:
+      summary: Retrieves a list of contacts
+      description: >-
+        -- This method retrieves a list of contacts;
+      operationId: listContacts
+      tags:
+        - Contacts
+      responses:
+        "200":
+          description: "Contacts List"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${listContactsFunction.Arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        responses:
+          default:
+            statusCode: "200"
+    put:
+      summary: Creates a Contact
+      description: >-
+        This method creates a Contact
+      operationId: createContact
+      tags:
+        - Contacts
+      requestBody:
+        description: Contact request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactRequest"
+      responses:
+        "202":
+          description: "Contact accepted for creation"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "409":
+          description: "Contact name is duplicated"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      # x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${putContactFunction.Arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        responses:
+          default:
+            statusCode: "200"
+  
+  /contacts/{id}:
+    get:
+      summary: Retrieves a Contact
+      operationId: getContact
+      tags:
+        - Contacts
+      parameters:
+        - name: id
+          in: path
+          description: Id of the Contact to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Contact Detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        default:
+          description: Unexpected error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getContactFunction.Arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        responses:
+          default:
+            statusCode: "200"
+    post:
+      summary: Update a Contact
+      description: >-
+        This method Updates a Contact
+      operationId: updateContact
+      parameters:
+        - name: id
+          in: path
+          description: Id of the Contact to update
+          required: true
+          schema:
+            type: string
+      tags:
+        - Contacts
+      requestBody:
+        description: Contact launch request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactRequest"
+      responses:
+        "200":
+          description: "Contact Updated"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        default:
+          description: Unexpected error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      # x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${postContactFunction.Arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        responses:
+          default:
+            statusCode: "200"
+    delete:
+      summary: Delete a Contact
+      description: >-
+        This operation deletes a Contact
+      operationId: deleteContact
+      tags:
+        - Contacts
+      parameters:
+        - name: id
+          in: path
+          description: Id of the Contact to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "Deleted"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+        default:
+          description: Unexpected error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${deleteContactFunction.Arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        responses:
+          default:
+            statusCode: "200"
+
+ 
+components:
+  schemas:
+    ContactRequest:
+      type: object
+      required:
+        - name
+        - phone
+      properties:
+        name:
+          type: string
+        phone:
+          type: integer
+        contactId:
+          type: string
+    Contact:
+          type: object
+          required:
+            - name
+            - phone
+            - contactId
+          properties:
+            name:
+              type: string
+            phone:
+              type: integer
+            contactId:
+              type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string

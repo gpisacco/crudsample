@@ -1,0 +1,7 @@
+{
+    "httpMethod": "GET",
+    "headers": {
+        "origin": "http://localhost:3000",
+        "Referer": "http://localhost:3000/"
+    }
+}

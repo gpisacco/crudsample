@@ -1,0 +1,8 @@
+{
+    "httpMethod": "PUT",
+    "body": "{\"phone\": \"222\",\"name\": \"name1\"}",
+    "headers": {
+        "origin": "http://localhost:3000",
+        "Referer": "http://localhost:3000/"
+    }
+}

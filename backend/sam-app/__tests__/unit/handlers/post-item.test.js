@@ -21,7 +21,7 @@ describe('Test putItemHandler', function () {
  
     // This test invokes putItemHandler() and compare the result  
     it('should add id to the table', async () => { 
-        const returnedItem = { phone: '222', name: 'name1' }; 
+        const returnedItem = { phone: '222', name: 'name1', contactId: '123' }; 
  
         // Return the specified value whenever the spied put function is called 
         putSpy.mockReturnValue({ 
@@ -30,7 +30,7 @@ describe('Test putItemHandler', function () {
  
         const event = { 
             httpMethod: 'PUT', 
-            body: '{"phone": "222","name": "name1"}',
+            body: '{"phone": "222","name": "name1", "contactId": "123"}',
             headers: {
                 origin: 'http://localhost:3000',
                 Referer: 'http://localhost:3000/',

@@ -10,9 +10,9 @@ const tableName = process.env.CONTACTS_TABLE;
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
  */
-exports.putItemHandler = async (event) => {
+exports.deletItemHandler = async (event) => {
     if (event.httpMethod !== 'DELETE') {
-        throw new Error(`postMethod only accepts DELETE method, you tried: ${event.httpMethod} method.`);
+        throw new Error(`deletItemHandler only accepts DELETE method, you tried: ${event.httpMethod} method.`);
     }
     // All log statements are written to CloudWatch
     console.info('received:', event);
@@ -27,14 +27,14 @@ exports.putItemHandler = async (event) => {
         Key: {contactId : id}
     };
 
-    const result = await docClient.delete(params).promise();
+    await docClient.delete(params).promise();
 
     const response = {
         statusCode: 204,
         body: JSON.stringify({}),
         headers: {
           "Access-Control-Allow-Origin":
-            event.headers.origin || event.headers.Referer || "*",
+             "*",
           "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
           "Access-Control-Allow-Headers":
             "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",

@@ -182,7 +182,7 @@ Resources:
   deleteContactFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/delete-item.putItemHandler
+      Handler: src/handlers/delete-item.deletItemHandler
       Runtime: nodejs16.x
       Architectures:
         - x86_64

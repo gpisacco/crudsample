@@ -46,8 +46,7 @@ describe('Test getByIdHandler', () => {
             statusCode: 200, 
             body: JSON.stringify(item),
             headers: {
-                "Access-Control-Allow-Origin":
-                  event.headers.origin || event.headers.Referer || "*",
+                "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
                 "Access-Control-Allow-Headers":
                   "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",

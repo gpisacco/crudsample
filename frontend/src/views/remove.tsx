@@ -1,29 +1,32 @@
+import React from 'react';
 import { Modal, Button } from "react-bootstrap";
+import { Contact } from "../utils/types";
 
 export interface ModalProps {
-  handleShow?: () => void;
   handleClose: () => void;
+  onDeleteContact: (c: Contact) => void;
+  contact: Contact;
   show: boolean;
 }
 
-const addModal = (props: ModalProps) => {
-  const { handleClose, show } = props;
+const RemoveModal = (props: ModalProps) => {
+  const { handleClose, contact, onDeleteContact, show } = props;
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Deleting Contact: "{contact?.name}"</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+      <Modal.Body>Are you sure?</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          Cancel
         </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Save Changes
+        <Button variant="danger" onClick={(e)=>onDeleteContact(contact)}>
+          Delete
         </Button>
       </Modal.Footer>
     </Modal>
   )
 }
 
-export default addModal;
+export default RemoveModal;

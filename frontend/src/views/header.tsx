@@ -1,15 +1,16 @@
 
-import { useState } from 'react';
+import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import Add from './add';
 
-function Header() {
+export interface HeaderProps {
+    onCreateContact: () => void;
+}
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+const Header = (props: HeaderProps) => {
+    const { onCreateContact } = props;
+
     return (
-        <>
+        <React.Fragment>
             <Row className='title'>
                 <Col sm={2}></Col>
                 <Col sm={8}><h1><i className="bi bi-person-lines-fill" /> Phone Book App</h1></Col>
@@ -18,14 +19,10 @@ function Header() {
             <Row className='header'>
                 <Col sm={2}><h2 >Contacts</h2></Col>
                 <Col sm={8}></Col>
-                <Col sm={2}><button type="button" className="btn btn-primary" onClick={handleShow}>+ Add Contact</button></Col>
+                <Col sm={2}><button type="button" className="btn btn-primary" onClick={onCreateContact}>+ Add Contact</button></Col>
             </Row>
-            <Add
-                show={show}
-                handleClose={handleClose}
-                handleShow={handleShow}
-            ></Add>
-        </>
+
+        </React.Fragment>
     );
 }
 

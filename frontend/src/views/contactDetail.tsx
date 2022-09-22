@@ -1,53 +1,44 @@
-import { useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { Contact } from '../utils/types';
-import Add from './add';
-import Remove from './remove';
+
 
 export interface ContactDetailProps {
     contact: Contact;
-  }
-
+    onContactSelected: (c: Contact) => void;
+    onEditClicked: (c: Contact) => void;
+    onDeleteClicked: (c: Contact) => void;
+}
+/**
+ * This components contains the details for Contact
+ *
+ * @param {ContactDetailProps} props
+ * @returns
+ */
 function ContactDetail(props: ContactDetailProps) {
-    const {contact} = props;
-    const [curentModal, setCurrentModal] = useState('');
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const { contact, onContactSelected, onEditClicked, onDeleteClicked } = props;
 
     return (
-        <div>
+        <div
+            onMouseOver={(e) => onContactSelected(contact)}
+        >
             <Row>
-                <Col sm={4}>
-                    {contact.name}
+                <Col sm={2} >
+                    <p className="d-flex text-sm-left contact-name">{contact.name}</p>
                 </Col>
-                <Col sm={8}>
+                <Col sm={10}>
                 </Col>
             </Row>
             <Row>
-                <Col sm={4}>
-                    <><i className="bi bi-telephone-fill"></i>{contact.phone}</>
+                <Col sm={2}>
+                    <p className="d-flex text-sm-left text-secondary contact-phone"><i className="bi bi-telephone-fill" ></i>{contact.phone}</p>
                 </Col>
-                <Col>
-                </Col>
-                <Col className='Action-buttons'>
-                    <Button className='btn btn-primary' onClick={()=>{setCurrentModal('A');handleShow();}}><i className="bi bi-pencil-fill" /></Button>
-                    <Button className='btn btn-danger' onClick={()=>{setCurrentModal('R');handleShow();}}><i className="bi bi-trash-fill" /></Button>
+                <Col col={8} />
+                <Col sm={2} className='Action-buttons '>
+                    <Button className='btn btn-primary ' onClick={() => onEditClicked(contact)}><i className="bi bi-pencil-fill" /></Button>
+                    <Button className='btn btn-danger' onClick={() => onDeleteClicked(contact)}><i className="bi bi-trash-fill" /></Button>
                 </Col>
             </Row>
-            {curentModal === 'A' && <Add
-                show={show}
-                handleClose={handleClose}
-                handleShow={handleShow}
-            ></Add>
-            }
-            {curentModal === 'R' &&
-                <Remove
-                    show={show}
-                    handleClose={handleClose}
-                    handleShow={handleShow}
-                ></Remove>
-            }
+
         </div>
     )
 }

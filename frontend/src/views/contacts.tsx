@@ -3,16 +3,24 @@ import { Contact } from '../utils/types';
 import ContactDetail from './contactDetail';
 
 export interface ContactsProps {
-  contacts: Contact[]
+  contacts: Contact[] | undefined;
+  onContactSelected: (c: Contact) => void;
+  onEditClicked: (c: Contact) => void;
+  onDeleteClicked: (c: Contact) => void;
 }
 
 function Contacts(props: ContactsProps) {
-  const { contacts } = props;
+  const { contacts, onContactSelected, onEditClicked, onDeleteClicked, } = props;
   return (
     <ListGroup as="ul">
-      {contacts.map(c =>
-        <ListGroup.Item as="li" >
-          <ContactDetail contact={c}></ContactDetail>
+      {contacts && contacts.sort((a, b) => parseInt(b.contactId) - parseInt(a.contactId)).map(c =>
+        <ListGroup.Item as="li" key={c.contactId}  className={'list-group-item list-group-item-action'}>
+          <ContactDetail
+            contact={c}
+            onContactSelected={onContactSelected}
+            onEditClicked={onEditClicked}
+            onDeleteClicked={onDeleteClicked}
+          ></ContactDetail>
         </ListGroup.Item>
       )}
     </ListGroup>

@@ -6,26 +6,39 @@ This project contains source code for both back-end and front end code
 
 The frontend was created using Create React App with typescript, the structure of the components was simplified to speed up development.
 
+The procedure to test the app is the following:
+```bash
+npm install
+npm run start
+```
+
+The procedure to test the app is the following (distribution files will be in ./build):
+```bash
+npm install
+npm run build
+```
 
 Important Points:
 - react-query was used to access the data, all the calls to the apis are in a class in the file  srs/utils/contactsAccessor.ts.
 - No state management was used, the data access and the general app control is made from src/view/phonebook.tsx 
 - Access to the modals is controled from phonebook.tsx to improve performance and avoid sending functions too deep into the components tree
 - Bootstrap-react was used in order to make the app looks like the sample
+- Filter is made on client side
+- The app is deployed in Vercel
 
 Some pending things:
 - Improve Validation
 - Add testing
 - Reduce the number of variables used
 - Improve styles 
-
+- Improve feedbacks (add spinners, messages, etc)
+- Add Pagination
 
 
 ## Backend
 
 
-The backend is an AWS SAM sam application, it uses DynamoDB to store the data, Lambda Functions for 
-execution and API Gateway, all those resources are created from the SAM Cloudformation template. It id base on the SAM cli kickstart project
+The backend is an AWS SAM sam application, it uses DynamoDB to store the data, Lambda Functions for execution and API Gateway, all those resources are created from the SAM Cloudformation template. It id base on the SAM cli kickstart project.
 
 - `src` - Code for the application's Lambda function.
 - `events` - Invocation events that you can use to invoke the function.
